@@ -1,0 +1,40 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+
+# Django database
+db.sqlite3
+
+# Static and media files (collected or uploaded)
+staticfiles/
+media/
+
+# VSCode / IDE settings
+.vscode/
+.idea/
+
+# Mac system files
+.DS_Store
+
+# Python bytecode cache
+*.pyo
+*.pyd
+*.pyc
+
+# Logs
+*.log
+
+# Environment variables (if you use one)
+.env
+
+# Static Files
+/staticfiles/
+
+# Celery schedule files
+celerybeat-schedule*
+
+data.json
