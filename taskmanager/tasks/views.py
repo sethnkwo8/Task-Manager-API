@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import generics, status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from tasks.models import Task
 from tasks.serializers import TaskSerializer, RegisterSerializer
@@ -8,6 +9,7 @@ from tasks.serializers import TaskSerializer, RegisterSerializer
 # Create your views here.
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
+    permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -22,11 +24,11 @@ class RegisterView(generics.CreateAPIView):
         }, status=status.HTTP_201_CREATED)
     
 class TaskView(ModelViewSet):
-    queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
     # Get tasks for logged in user
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)
+    
 
 

@@ -2,7 +2,10 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from tasks.models import Task
 
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 class RegisterSerializer(ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -28,7 +31,7 @@ class RegisterSerializer(ModelSerializer):
 class TaskSerializer(ModelSerializer):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['id', 'title', 'description', 'priority', 'completed', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
 
     def create(self, validated_data):

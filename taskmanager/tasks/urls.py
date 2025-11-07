@@ -6,8 +6,8 @@ from tasks.views import TaskView
 app_name = 'tasks'
 
 router = DefaultRouter()
-router.register('tasks', TaskView.as_view(), basename='tasks')
+router.register('tasks', TaskView, basename='tasks')
 
-url_patterns = [
+urlpatterns = [
     path('', include(router.urls))
 ]
