@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
@@ -25,6 +26,8 @@ class RegisterView(generics.CreateAPIView):
     
 class TaskView(ModelViewSet):
     serializer_class = TaskSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['title', 'completed', 'priority']
 
     # Get tasks for logged in user
     def get_queryset(self):
