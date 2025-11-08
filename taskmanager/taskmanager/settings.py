@@ -79,6 +79,7 @@ WSGI_APPLICATION = 'taskmanager.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# PostgreSQL database setup
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -132,8 +133,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# User model used
 AUTH_USER_MODEL = 'tasks.User'
 
+# REST Framework global settings
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
@@ -150,6 +153,7 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER' : 'tasks.utils.exceptions.custom_exception_handler'
 }
 
+# Global settings for JWT token
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),   # 1 hour access token
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),      # 7 days refresh token

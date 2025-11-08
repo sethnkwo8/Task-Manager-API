@@ -9,8 +9,8 @@ from tasks.models import Task
 
 User = get_user_model()
 
-# Create your tests here.
 class BaseAPITestCase(APITestCase):
+    # BaseAPITestCase setUp
     def setUp(self):
         self.user = User.objects.create_user(
             username='testuser',
@@ -23,7 +23,7 @@ class BaseAPITestCase(APITestCase):
 
 class TaskAPITestCase(BaseAPITestCase):
     def setUp(self):
-        super().setUp()
+        super().setUp() #Inherits from BaseAPITestCase setUp
         self.task = Task.objects.create(user=self.user,
                                         title='Complete test',
                                         description = 'Test out tests',
@@ -33,31 +33,37 @@ class TaskAPITestCase(BaseAPITestCase):
         self.detail_url= reverse('tasks:tasks-detail', kwargs={'pk':self.task.id})
         self.task_data = {'title': 'test2', 'description':'Sample data', 'priority': 'low', 'completed': True}
 
+    # Test for GET
     def test_get_tasks(self):
         response = self.client.get(self.task_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['count'], 1)
         self.assertEqual(len(response.data['results']), 1)
 
+    # Test for POST
     def test_create_task(self):
         response = self.client.post(self.task_url, self.task_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['title'], 'test2')
 
+    # Test for GET specific task
     def test_retrieve_task(self):
         response = self.client.get(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['title'], 'Complete test')
 
+    # Test for PUT specific Task
     def test_put_task(self):
         response = self.client.put(self.detail_url, self.task_data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['title'], 'test2')
 
+    # Test for DELETE
     def test_delete_task(self):
         response = self.client.delete(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
+    # Test for unauthorized user
     def test_unauthorized(self):
         self.client.credentials()
         response = self.client.get(self.task_url)
